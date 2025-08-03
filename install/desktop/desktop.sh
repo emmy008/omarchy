@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Install desktop utilities
-sudo apt install -y \
+sudo apt install -y --no-install-recommends \
   brightnessctl playerctl wireplumber pipewire-audio \
   fcitx5 fcitx5-frontend-gtk3 fcitx5-frontend-qt5 \
-  nautilus gnome-sushi ffmpegthumbnailer \
+  nautilus gnome-sushi ffmpegthumbnailer gvfs-backends \
   slurp grim wl-clipboard \
   mpv evince \
   chromium-browser
@@ -23,11 +23,11 @@ fi
 # - imv: Not in Ubuntu repos, use eog (Eye of GNOME) instead
 
 # Install alternative packages
-sudo apt install -y \
+sudo apt install -y --no-install-recommends \
   pavucontrol \
   swappy \
   eog
 
 # Add screen recorder
 # wf-recorder and wl-screenrec not in Ubuntu repos, use OBS Studio instead
-sudo apt install -y obs-studio
+sudo apt install -y --no-install-recommends obs-studio

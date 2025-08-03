@@ -2,7 +2,7 @@
 
 # Hyprland is not in Ubuntu's official repos, so we need to build from source or use a PPA
 # First, install dependencies
-sudo apt install -y \
+sudo apt install -y --no-install-recommends \
   meson wget build-essential ninja-build cmake-extras cmake gettext gettext-base \
   libfontconfig-dev libffi-dev libxml2-dev libdrm-dev libxkbcommon-x11-dev libxkbregistry-dev \
   libxkbcommon-dev libpixman-1-dev libudev-dev libseat-dev seatd libxcb-dri3-dev libvulkan-dev \
@@ -14,7 +14,19 @@ sudo apt install -y \
   hwdata libgbm-dev libnotify-bin zenity polkit-kde-agent-1
 
 # Install Wayland protocols
-sudo apt install -y wayland-protocols libwayland-dev
+sudo apt install -y --no-install-recommends wayland-protocols libwayland-dev
+
+# Build and install aquamarine (Hyprland's Wayland backend)
+if ! pkg-config --exists aquamarine; then
+  cd /tmp
+  git clone https://github.com/hyprwm/aquamarine.git
+  cd aquamarine
+  cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+  cmake --build build
+  sudo cmake --install build
+  cd ..
+  rm -rf aquamarine
+fi
 
 # Build and install Hyprland
 if ! command -v Hyprland &>/dev/null; then
@@ -86,13 +98,13 @@ if ! command -v hyprshot &>/dev/null; then
 fi
 
 # Install waybar
-sudo apt install -y waybar
+sudo apt install -y --no-install-recommends waybar
 
 # Install mako (notification daemon)
-sudo apt install -y mako-notifier
+sudo apt install -y --no-install-recommends mako-notifier
 
 # Install swaybg (wallpaper utility)
-sudo apt install -y swaybg
+sudo apt install -y --no-install-recommends swaybg
 
 # Install swayosd from source
 if ! command -v swayosd-server &>/dev/null; then
@@ -118,10 +130,10 @@ if ! command -v walker &>/dev/null; then
 fi
 
 # Install libqalculate for calculator support in Walker
-sudo apt install -y libqalculate-dev qalc
+sudo apt install -y --no-install-recommends libqalculate-dev qalc
 
 # Install XDG desktop portals
-sudo apt install -y xdg-desktop-portal-gtk
+sudo apt install -y --no-install-recommends xdg-desktop-portal-gtk
 
 # Build xdg-desktop-portal-hyprland
 if ! pkg-config --exists xdg-desktop-portal-hyprland; then
@@ -136,4 +148,4 @@ if ! pkg-config --exists xdg-desktop-portal-hyprland; then
 fi
 
 # Install polkit-gnome
-sudo apt install -y policykit-1-gnome
+sudo apt install -y --no-install-recommends policykit-1-gnome

@@ -8,7 +8,7 @@ echo "Installing display manager for Hyprland..."
 
 # Option 1: GDM (GNOME Display Manager) - Works well with Wayland
 if ! systemctl is-enabled gdm &>/dev/null 2>&1; then
-  sudo apt install -y gdm3
+  sudo apt install -y --no-install-recommends gdm3
   
   # Enable GDM
   sudo systemctl enable gdm

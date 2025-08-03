@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Install fonts
-sudo apt install -y \
+sudo apt install -y --no-install-recommends \
   fonts-font-awesome \
   fonts-noto \
   fonts-noto-color-emoji
@@ -16,10 +16,10 @@ fi
 
 if [ -z "$OMARCHY_BARE" ]; then
   # Install JetBrains Mono
-  sudo apt install -y fonts-jetbrains-mono
+  sudo apt install -y --no-install-recommends fonts-jetbrains-mono
   
   # Install CJK and extra Noto fonts
-  sudo apt install -y fonts-noto-cjk fonts-noto-extra
+  sudo apt install -y --no-install-recommends fonts-noto-cjk fonts-noto-extra
 fi
 
 # Note: iA Writer fonts are proprietary and not in Ubuntu repos
