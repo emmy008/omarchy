@@ -5,9 +5,15 @@ sudo apt install -y \
   brightnessctl playerctl wireplumber pipewire-audio \
   fcitx5 fcitx5-frontend-gtk3 fcitx5-frontend-qt5 \
   nautilus sushi ffmpegthumbnailer \
-  slurp grim \
+  slurp grim wl-clipboard \
   mpv evince \
   chromium-browser
+
+# Install cliphist for clipboard history (not in Ubuntu repos, build from source)
+if ! command -v cliphist &>/dev/null; then
+  go install go.senan.xyz/cliphist@latest 2>/dev/null || \
+    echo "Note: cliphist not installed, clipboard history won't persist"
+fi
 
 # Note: Some packages need alternatives or building from source on Ubuntu:
 # - pamixer: Not in Ubuntu repos, use pactl instead

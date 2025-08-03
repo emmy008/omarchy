@@ -1,0 +1,40 @@
+#!/bin/bash
+# Compatibility wrapper for pamixer using pactl (PulseAudio/PipeWire)
+
+# Parse pamixer-style arguments and convert to pactl commands
+case "$1" in
+  -t|--toggle-mute)
+    pactl set-sink-mute @DEFAULT_SINK@ toggle
+    ;;
+  -m|--mute)
+    pactl set-sink-mute @DEFAULT_SINK@ 1
+    ;;
+  -u|--unmute)
+    pactl set-sink-mute @DEFAULT_SINK@ 0
+    ;;
+  -i|--increase)
+    shift
+    pactl set-sink-volume @DEFAULT_SINK@ +${1:-5}%
+    ;;
+  -d|--decrease)
+    shift
+    pactl set-sink-volume @DEFAULT_SINK@ -${1:-5}%
+    ;;
+  --get-volume)
+    pactl get-sink-volume @DEFAULT_SINK@ | grep -Po '\d+(?=%)' | head -1
+    ;;
+  --get-mute)
+    pactl get-sink-mute @DEFAULT_SINK@ | grep -q "yes" && echo "true" || echo "false"
+    ;;
+  *)
+    echo "pamixer compatibility wrapper for Ubuntu"
+    echo "Supported options:"
+    echo "  -t, --toggle-mute    Toggle mute"
+    echo "  -m, --mute          Mute"
+    echo "  -u, --unmute        Unmute"
+    echo "  -i, --increase [N]  Increase volume by N% (default: 5)"
+    echo "  -d, --decrease [N]  Decrease volume by N% (default: 5)"
+    echo "  --get-volume        Get current volume"
+    echo "  --get-mute          Get mute status"
+    ;;
+esac

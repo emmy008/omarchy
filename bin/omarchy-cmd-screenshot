@@ -8,10 +8,20 @@ if [[ ! -d "$OUTPUT_DIR" ]]; then
   exit 1
 fi
 
-pkill slurp || hyprshot -m ${1:-region} --raw |
-  satty --filename - \
-    --output-filename "$OUTPUT_DIR/screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png" \
-    --early-exit \
-    --actions-on-enter save-to-clipboard \
-    --save-after-copy \
-    --copy-command 'wl-copy'
+# Use grim and slurp for screenshots, then swappy for editing
+# Note: swappy doesn't support all of satty's features
+OUTPUT_FILE="$OUTPUT_DIR/screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png"
+
+if [ "${1:-region}" = "region" ]; then
+  # Region screenshot
+  grim -g "$(slurp)" - | swappy -f - -o "$OUTPUT_FILE"
+else
+  # Full screen screenshot
+  grim - | swappy -f - -o "$OUTPUT_FILE"
+fi
+
+# Copy to clipboard after saving
+if [ -f "$OUTPUT_FILE" ]; then
+  wl-copy < "$OUTPUT_FILE"
+  notify-send "Screenshot saved" "$OUTPUT_FILE" -t 2000
+fi
