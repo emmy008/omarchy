@@ -5,6 +5,9 @@ set -e
 
 OMARCHY_INSTALL=~/.local/share/omarchy/install
 
+# Source package helper functions
+source $OMARCHY_INSTALL/lib/package-helper.sh
+
 # Give people a chance to retry running the installation
 catch_errors() {
   echo -e "\n\e[31mOmarchy installation failed!\e[0m"
