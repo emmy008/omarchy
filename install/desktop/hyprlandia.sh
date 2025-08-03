@@ -16,6 +16,18 @@ sudo apt install -y --no-install-recommends \
 # Install Wayland protocols
 sudo apt install -y --no-install-recommends wayland-protocols libwayland-dev
 
+# Build and install hyprwayland-scanner (required by aquamarine)
+if ! pkg-config --exists hyprwayland-scanner; then
+  cd /tmp
+  git clone https://github.com/hyprwm/hyprwayland-scanner.git
+  cd hyprwayland-scanner
+  cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+  cmake --build build
+  sudo cmake --install build
+  cd ..
+  rm -rf hyprwayland-scanner
+fi
+
 # Build and install aquamarine (Hyprland's Wayland backend)
 if ! pkg-config --exists aquamarine; then
   cd /tmp
