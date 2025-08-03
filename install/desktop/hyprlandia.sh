@@ -11,7 +11,7 @@ sudo apt install -y --no-install-recommends \
   libavutil-dev libavcodec-dev libavformat-dev libxcb-ewmh2 libxcb-ewmh-dev \
   libxcb-present-dev libxcb-icccm4-dev libxcb-render-util0-dev libxcb-res0-dev \
   libxcb-xinput-dev xdg-desktop-portal-wlr libtomlplusplus3 \
-  hwdata libgbm-dev libnotify-bin zenity polkit-kde-agent-1
+  hwdata libgbm-dev libnotify-bin zenity polkit-kde-agent-1 libpugixml-dev
 
 # Install Wayland protocols
 sudo apt install -y --no-install-recommends wayland-protocols libwayland-dev
