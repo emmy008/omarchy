@@ -4,7 +4,7 @@
 sudo apt install -y \
   brightnessctl playerctl wireplumber pipewire-audio \
   fcitx5 fcitx5-frontend-gtk3 fcitx5-frontend-qt5 \
-  nautilus sushi ffmpegthumbnailer \
+  nautilus gnome-sushi ffmpegthumbnailer \
   slurp grim wl-clipboard \
   mpv evince \
   chromium-browser
