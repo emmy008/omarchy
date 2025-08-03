@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Ubuntu doesn't have AUR, but we need to set up some essential tools and PPAs
-# for packages that aren't in the main repositories
+# Set up essential tools, PPAs and package managers for Ubuntu
+# This includes tools for building packages and installing from various sources
 
 # Update package lists (only if not already done)
 if [[ -z "$OMARCHY_APT_UPDATED" ]]; then
@@ -18,13 +18,12 @@ sudo add-apt-repository -y universe
 # Install tools for adding PPAs
 sudo apt install -y apt-transport-https ca-certificates gnupg lsb-release
 
-# Add fun to apt (similar to pacman's ILoveCandy)
-# Ubuntu doesn't have an equivalent, but we can enable progress bars
+# Enable progress bars in apt for better visual feedback
 if ! grep -q "Dpkg::Progress-Fancy" /etc/apt/apt.conf.d/99progressbar 2>/dev/null; then
   echo 'Dpkg::Progress-Fancy "1";' | sudo tee /etc/apt/apt.conf.d/99progressbar >/dev/null
 fi
 
-# Install cargo for Rust-based tools (many AUR packages are Rust-based)
+# Install cargo for Rust-based tools
 if ! command -v cargo &>/dev/null; then
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   source "$HOME/.cargo/env"
