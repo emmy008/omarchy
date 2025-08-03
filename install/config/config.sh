@@ -23,8 +23,18 @@ sudo gpgconf --kill dirmngr || true
 sudo gpgconf --launch dirmngr || true
 
 # Increase lockout limit to 10 and decrease timeout to 2 minutes
-sudo sed -i 's|^\(auth\s\+required\s\+pam_faillock.so\)\s\+preauth.*$|\1 preauth silent deny=10 unlock_time=120|' "/etc/pam.d/system-auth"
-sudo sed -i 's|^\(auth\s\+\[default=die\]\s\+pam_faillock.so\)\s\+authfail.*$|\1 authfail deny=10 unlock_time=120|' "/etc/pam.d/system-auth"
+# Ubuntu uses common-auth instead of system-auth
+if [ -f "/etc/pam.d/system-auth" ]; then
+    # Arch/Fedora style
+    sudo sed -i 's|^\(auth\s\+required\s\+pam_faillock.so\)\s\+preauth.*$|\1 preauth silent deny=10 unlock_time=120|' "/etc/pam.d/system-auth"
+    sudo sed -i 's|^\(auth\s\+\[default=die\]\s\+pam_faillock.so\)\s\+authfail.*$|\1 authfail deny=10 unlock_time=120|' "/etc/pam.d/system-auth"
+elif [ -f "/etc/pam.d/common-auth" ]; then
+    # Ubuntu/Debian style - check if pam_faillock is configured
+    if grep -q "pam_faillock.so" /etc/pam.d/common-auth 2>/dev/null; then
+        sudo sed -i 's|^\(auth\s\+required\s\+pam_faillock.so\)\s\+preauth.*$|\1 preauth silent deny=10 unlock_time=120|' "/etc/pam.d/common-auth"
+        sudo sed -i 's|^\(auth\s\+\[default=die\]\s\+pam_faillock.so\)\s\+authfail.*$|\1 authfail deny=10 unlock_time=120|' "/etc/pam.d/common-auth"
+    fi
+fi
 
 # Set common git aliases
 git config --global alias.co checkout

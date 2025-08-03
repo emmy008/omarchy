@@ -1,10 +1,15 @@
 #!/bin/bash
 
 # Install terminal tools
+# Note: mlocate is replaced by plocate in modern Ubuntu
 sudo apt install -y \
   wget curl unzip net-tools \
   fd-find fzf ripgrep bat jq \
-  bash-completion mlocate whois
+  bash-completion plocate whois || \
+sudo apt install -y \
+  wget curl unzip net-tools \
+  fd-find fzf ripgrep bat jq \
+  bash-completion whois  # Try without plocate if it fails
 
 # Install eza (modern ls replacement)
 if ! command -v eza &>/dev/null; then
@@ -47,10 +52,16 @@ fi
 
 # Install alacritty
 if ! command -v alacritty &>/dev/null; then
-  sudo add-apt-repository -y ppa:aslatter/ppa
-  # Only update for this new repository
-  sudo apt update -o Dir::Etc::sourcelist="sources.list.d/aslatter-ubuntu-ppa-*.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"
-  sudo apt install -y alacritty
+  # Try to install from main repos first (available in Ubuntu 23.04+)
+  if sudo apt install -y alacritty 2>/dev/null; then
+    echo "Alacritty installed from main repository"
+  else
+    # Fall back to PPA for older Ubuntu versions
+    sudo add-apt-repository -y ppa:aslatter/ppa || true
+    # Only update for this new repository
+    sudo apt update -o Dir::Etc::sourcelist="sources.list.d/aslatter-ubuntu-ppa-*.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0" || true
+    sudo apt install -y alacritty
+  fi
 fi
 
 # Install impala (Wi-Fi selector) from source

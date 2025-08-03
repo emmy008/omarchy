@@ -14,6 +14,16 @@ catch_errors() {
 
 trap catch_errors ERR
 
+# Helper function to run non-critical commands that might fail
+run_optional() {
+  set +e  # Temporarily disable exit on error
+  "$@"
+  local result=$?
+  set -e  # Re-enable exit on error
+  return $result
+}
+export -f run_optional
+
 show_logo() {
   clear
   tte -i ~/.local/share/omarchy/logo.txt --frame-rate ${2:-120} ${1:-expand}

@@ -1,10 +1,25 @@
 #!/bin/bash
 
-# Install iwd explicitly if it wasn't included in archinstall
-# This can happen if archinstall used ethernet
+# Install iwd for wireless management
+# iwd is Intel's modern wireless daemon, preferred over wpa_supplicant
 if ! command -v iwctl &>/dev/null; then
-  yay -S --noconfirm --needed iwd
-  sudo systemctl enable --now iwd.service
+  # Check if we're on Arch or Ubuntu
+  if command -v pacman &>/dev/null; then
+    # Arch Linux
+    if command -v yay &>/dev/null; then
+      yay -S --noconfirm --needed iwd
+    else
+      sudo pacman -S --noconfirm --needed iwd
+    fi
+  elif command -v apt &>/dev/null; then
+    # Ubuntu/Debian
+    sudo apt install -y iwd
+  fi
+  
+  # Enable iwd service if systemd is available
+  if command -v systemctl &>/dev/null && systemctl list-units &>/dev/null 2>&1; then
+    sudo systemctl enable --now iwd.service
+  fi
 fi
 
 # Fix systemd-networkd-wait-online timeout for multiple interfaces
