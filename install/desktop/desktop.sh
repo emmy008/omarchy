@@ -1,16 +1,27 @@
 #!/bin/bash
 
-yay -S --noconfirm --needed \
-  brightnessctl playerctl pamixer wiremix wireplumber \
-  fcitx5 fcitx5-gtk fcitx5-qt wl-clip-persist \
+# Install desktop utilities
+sudo apt install -y \
+  brightnessctl playerctl wireplumber pipewire-audio \
+  fcitx5 fcitx5-frontend-gtk3 fcitx5-frontend-qt5 \
   nautilus sushi ffmpegthumbnailer \
-  slurp satty \
-  mpv evince imv \
-  chromium
+  slurp grim \
+  mpv evince \
+  chromium-browser
 
-# Add screen recorder based on GPU
-if lspci | grep -qi 'nvidia'; then
-  yay -S --noconfirm --needed wf-recorder
-else
-  yay -S --noconfirm --needed wl-screenrec
-fi
+# Note: Some packages need alternatives or building from source on Ubuntu:
+# - pamixer: Not in Ubuntu repos, use pactl instead
+# - wiremix: Not available, use pavucontrol or qpwgraph
+# - wl-clip-persist: Not in Ubuntu repos, need to build from source
+# - satty: Not in Ubuntu repos, use swappy instead
+# - imv: Not in Ubuntu repos, use eog (Eye of GNOME) instead
+
+# Install alternative packages
+sudo apt install -y \
+  pavucontrol \
+  swappy \
+  eog
+
+# Add screen recorder
+# wf-recorder and wl-screenrec not in Ubuntu repos, use OBS Studio instead
+sudo apt install -y obs-studio

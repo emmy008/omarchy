@@ -1,18 +1,18 @@
 #!/bin/bash
 
 # Use dark mode for QT apps too (like kdenlive)
-if ! yay -Q kvantum-qt5 &>/dev/null; then
-  yay -S --noconfirm kvantum-qt5
+if ! dpkg -l | grep -q kvantum; then
+  sudo apt install -y qt5-style-kvantum qt5-style-kvantum-themes
 fi
 
 # Prefer dark mode everything
-if ! yay -Q gnome-themes-extra &>/dev/null; then
-  yay -S --noconfirm gnome-themes-extra # Adds Adwaita-dark theme
+if ! dpkg -l | grep -q gnome-themes-extra; then
+  sudo apt install -y gnome-themes-extra # Adds Adwaita-dark theme
 fi
 
 # Allow icons to match the theme
-if ! yay -! yaru-icon-theme &>/dev/null; then
-  yay -S --noconfirm yaru-icon-theme
+if ! dpkg -l | grep -q yaru-theme-icon; then
+  sudo apt install -y yaru-theme-icon
 fi
 
 gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"

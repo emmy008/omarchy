@@ -12,7 +12,8 @@ if ! command -v docker &>/dev/null; then
   DOCKER_CODENAME=$(. /etc/os-release && echo "$VERSION_CODENAME")
   
   # Check if Docker has a release for this Ubuntu version
-  if ! curl -fsSL "https://download.docker.com/linux/ubuntu/dists/$DOCKER_CODENAME/Release" &>/dev/null; then
+  # Ubuntu 25.04 (plucky) might not be supported yet, fall back to 24.04 (noble)
+  if ! curl -fsSL "https://download.docker.com/linux/ubuntu/dists/$DOCKER_CODENAME/Release" &>/dev/null 2>&1; then
     echo "Docker repository not available for $DOCKER_CODENAME, using noble (24.04 LTS) instead"
     DOCKER_CODENAME="noble"
   fi
