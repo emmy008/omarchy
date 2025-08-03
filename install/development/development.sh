@@ -26,11 +26,19 @@ fi
 
 # Install lazygit
 if ! command -v lazygit &>/dev/null; then
-  LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
-  curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-  tar xf lazygit.tar.gz lazygit
-  sudo install lazygit /usr/local/bin
-  rm lazygit.tar.gz lazygit
+  # Try snap first (faster than compiling)
+  if command -v snap &>/dev/null && snap list &>/dev/null 2>&1; then
+    sudo snap install lazygit-gm --classic
+    # Create symlink since snap installs as lazygit-gm
+    sudo ln -sf /snap/bin/lazygit-gm /usr/local/bin/lazygit 2>/dev/null || true
+  else
+    # Fall back to downloading pre-built binary
+    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+    curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+    tar xf lazygit.tar.gz lazygit
+    sudo install lazygit /usr/local/bin
+    rm lazygit.tar.gz lazygit
+  fi
 fi
 
 # Install lazydocker

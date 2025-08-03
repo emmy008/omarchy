@@ -25,7 +25,13 @@ fi
 
 # Install zoxide (smart cd)
 if ! command -v zoxide &>/dev/null; then
-  curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
+  # Try Ubuntu package first (available in Ubuntu 22.04+)
+  if sudo apt install -y zoxide 2>/dev/null; then
+    echo "Zoxide installed from Ubuntu repository"
+  else
+    # Fall back to installer script for older Ubuntu versions
+    curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
+  fi
 fi
 
 # Install wl-clipboard
@@ -41,13 +47,8 @@ fi
 
 # Install btop
 if ! command -v btop &>/dev/null; then
-  # Try snap first, but fall back to building from source if snap isn't available
-  if command -v snap &>/dev/null && snap list &>/dev/null 2>&1; then
-    sudo snap install btop
-  else
-    # Fall back to apt version if available
-    sudo apt install -y btop || warning "btop installation failed"
-  fi
+  # btop is available in Ubuntu repositories
+  sudo apt install -y btop
 fi
 
 # Install alacritty
@@ -64,12 +65,12 @@ if ! command -v alacritty &>/dev/null; then
   fi
 fi
 
-# Install impala (Wi-Fi selector) from source
+# Install impala (Wi-Fi selector) - optional tool for Wi-Fi management
 if ! command -v impala &>/dev/null; then
-  # Ensure cargo is in PATH
-  export PATH="$HOME/.cargo/bin:$PATH"
-  source "$HOME/.cargo/env" 2>/dev/null || true
-  cargo install impala
+  echo "impala (Wi-Fi selector) not found - this is an optional tool"
+  echo "You can install it later with: cargo install impala"
+  echo "Alternative: Use NetworkManager GUI (nm-applet) or nmtui for Wi-Fi management"
+  # Skip installation to avoid compilation time during initial setup
 fi
 
 # Create symlinks for fd (Ubuntu installs it as fdfind)
