@@ -44,12 +44,14 @@ elif [ ! -f /etc/default/grub ]; then
 fi
 
 # Set Omarchy Plymouth theme if available
-if [ -d "$HOME/.local/share/omarchy/default/plymouth" ]; then
+if [ -d "$HOME/.local/share/omarchy/default/plymouth" ] && command -v plymouth-set-default-theme &>/dev/null; then
   if [ "$(plymouth-set-default-theme 2>/dev/null)" != "omarchy" ]; then
     sudo cp -r "$HOME/.local/share/omarchy/default/plymouth" /usr/share/plymouth/themes/omarchy/
     sudo plymouth-set-default-theme omarchy
     sudo update-initramfs -u
   fi
+elif [ -d "$HOME/.local/share/omarchy/default/plymouth" ] && ! command -v plymouth-set-default-theme &>/dev/null; then
+  echo "Plymouth not available - skipping theme installation"
 fi
 
 # ==============================================================================
