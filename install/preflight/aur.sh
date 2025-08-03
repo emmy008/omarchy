@@ -32,6 +32,13 @@ if ! command -v cargo &>/dev/null; then
   export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
+# Install Go for building tools like cliphist
+if ! command -v go &>/dev/null; then
+  sudo apt install -y golang-go
+  # Add Go to current shell
+  export PATH="/usr/local/go/bin:$HOME/go/bin:$PATH"
+fi
+
 # Install pipx for Python applications
 if ! command -v pipx &>/dev/null; then
   # On newer Ubuntu, pipx is available in apt

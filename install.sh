@@ -44,6 +44,7 @@ show_logo beams 240
 show_subtext "Let's install Omarchy! [1/5]"
 source $OMARCHY_INSTALL/config/identification.sh
 source $OMARCHY_INSTALL/config/config.sh
+source $OMARCHY_INSTALL/config/audio.sh
 source $OMARCHY_INSTALL/config/detect-keyboard-layout.sh
 source $OMARCHY_INSTALL/config/fix-fkeys.sh
 source $OMARCHY_INSTALL/config/network.sh
@@ -67,6 +68,7 @@ show_logo slice 60
 show_subtext "Installing desktop tools [3/5]"
 source $OMARCHY_INSTALL/desktop/desktop.sh
 source $OMARCHY_INSTALL/desktop/hyprlandia.sh
+source $OMARCHY_INSTALL/desktop/display-manager.sh
 source $OMARCHY_INSTALL/desktop/theme.sh
 source $OMARCHY_INSTALL/desktop/bluetooth.sh
 source $OMARCHY_INSTALL/desktop/asdcontrol.sh
