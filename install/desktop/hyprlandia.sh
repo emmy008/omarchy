@@ -16,6 +16,21 @@ sudo apt install -y --no-install-recommends \
 # Install Wayland protocols
 sudo apt install -y --no-install-recommends wayland-protocols libwayland-dev
 
+# Install libdisplay-info (required by aquamarine)
+sudo apt install -y --no-install-recommends libdisplay-info-dev
+
+# Build and install hyprutils (required by aquamarine)
+if ! pkg-config --exists hyprutils; then
+  cd /tmp
+  git clone https://github.com/hyprwm/hyprutils.git
+  cd hyprutils
+  cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+  cmake --build build
+  sudo cmake --install build
+  cd ..
+  rm -rf hyprutils
+fi
+
 # Build and install hyprwayland-scanner (required by aquamarine)
 if ! pkg-config --exists hyprwayland-scanner; then
   cd /tmp
