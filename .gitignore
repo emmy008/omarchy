@@ -1,0 +1,12 @@
+# Testing files
+Dockerfile.test
+docker-compose.test.yml
+lxc-test-setup.sh
+lxc-test-setup-nogroup.sh
+run-lxc-test.sh
+run-ubuntu-test.sh
+test-install.sh
+test-results/
+
+# Claude configuration
+CLAUDE.md
