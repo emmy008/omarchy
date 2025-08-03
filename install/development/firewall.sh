@@ -1,7 +1,13 @@
 #!/bin/bash
 
 if ! command -v ufw &>/dev/null; then
-  yay -S --noconfirm --needed ufw ufw-docker
+  sudo apt install -y ufw
+  
+  # Install ufw-docker for Docker integration
+  if command -v docker &>/dev/null; then
+    sudo wget -O /usr/local/bin/ufw-docker https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
+    sudo chmod +x /usr/local/bin/ufw-docker
+  fi
 
   # Allow nothing in, everything out
   sudo ufw default deny incoming

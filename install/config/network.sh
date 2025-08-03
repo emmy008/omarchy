@@ -3,18 +3,7 @@
 # Install iwd for wireless management
 # iwd is Intel's modern wireless daemon, preferred over wpa_supplicant
 if ! command -v iwctl &>/dev/null; then
-  # Check if we're on Arch or Ubuntu
-  if command -v pacman &>/dev/null; then
-    # Arch Linux
-    if command -v yay &>/dev/null; then
-      yay -S --noconfirm --needed iwd
-    else
-      sudo pacman -S --noconfirm --needed iwd
-    fi
-  elif command -v apt &>/dev/null; then
-    # Ubuntu/Debian
-    sudo apt install -y iwd
-  fi
+  sudo apt install -y iwd
   
   # Enable iwd service if systemd is available
   if command -v systemctl &>/dev/null && systemctl list-units &>/dev/null 2>&1; then

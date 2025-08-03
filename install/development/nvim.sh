@@ -1,7 +1,14 @@
 #!/bin/bash
 
 if ! command -v nvim &>/dev/null; then
-  yay -S --noconfirm --needed nvim luarocks tree-sitter-cli
+  # Install Neovim from official repository
+  sudo add-apt-repository -y ppa:neovim-ppa/unstable
+  sudo apt update
+  sudo apt install -y neovim
+  
+  # Install luarocks and tree-sitter
+  sudo apt install -y luarocks
+  cargo install tree-sitter-cli
 
   # Install LazyVim
   rm -rf ~/.config/nvim
