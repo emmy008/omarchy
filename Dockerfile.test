@@ -1,0 +1,36 @@
+FROM ubuntu:25.04
+
+# Prevent interactive prompts during installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install basic requirements
+RUN apt-get update && apt-get install -y \
+    sudo \
+    git \
+    curl \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create a test user with sudo privileges
+RUN useradd -m -s /bin/bash testuser && \
+    echo "testuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Switch to test user
+USER testuser
+WORKDIR /home/testuser
+
+# Copy the omarchy files
+COPY --chown=testuser:testuser . /home/testuser/.local/share/omarchy
+
+# Set execute permissions on all scripts
+RUN find /home/testuser/.local/share/omarchy -name "*.sh" -type f -exec chmod +x {} \;
+
+# Switch back to root to create directory
+USER root
+RUN mkdir -p /test-results && chown testuser:testuser /test-results
+
+# Switch back to testuser
+USER testuser
+
+# Run the test script
+CMD ["/bin/bash", "/home/testuser/.local/share/omarchy/test-install.sh"]

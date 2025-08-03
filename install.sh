@@ -73,8 +73,10 @@ source $OMARCHY_INSTALL/apps/mimetypes.sh
 # Updates
 show_logo highlight
 show_subtext "Updating system packages [5/5]"
+# Do a full apt update now that all repositories have been added
+sudo apt update
+sudo apt upgrade -y
 sudo updatedb
-sudo pacman -Syu --noconfirm
 
 # Reboot
 show_logo laseretch 920

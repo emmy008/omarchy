@@ -17,9 +17,17 @@ git -C $omarchy_path diff --check || git -C $omarchy_path reset --merge
 
 # Update system packages
 echo -e "\e[32m\nUpdate system packages\e[0m"
-yay -Syu --noconfirm
+sudo apt update && sudo apt upgrade -y
+
+# Also update snap packages if installed
+if command -v snap &>/dev/null; then
+  sudo snap refresh
+fi
 
 # Offer to reboot if the kernel has been changed
-if [ "$(uname -r | sed 's/-arch/\.arch/')" != "$(pacman -Q linux | awk '{print $2}')" ]; then
-  gum confirm "Linux kernel has been updated. Reboot?" && sudo reboot now
+CURRENT_KERNEL=$(uname -r)
+LATEST_KERNEL=$(dpkg -l | grep "^ii  linux-image-[0-9]" | awk '{print $2}' | sed 's/linux-image-//' | sort -V | tail -n1)
+
+if [ "$CURRENT_KERNEL" != "$LATEST_KERNEL" ]; then
+  gum confirm "Linux kernel has been updated from $CURRENT_KERNEL to $LATEST_KERNEL. Reboot?" && sudo reboot now
 fi

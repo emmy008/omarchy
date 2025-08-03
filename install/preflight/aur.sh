@@ -1,41 +1,59 @@
 #!/bin/bash
 
-# Only add Chaotic-AUR if the architecture is x86_64 so ARM users can build the packages
-if [[ "$(uname -m)" == "x86_64" ]] && ! command -v yay &>/dev/null; then
-  # Try installing Chaotic-AUR keyring and mirrorlist
-  if ! pacman-key --list-keys 3056513887B78AEB >/dev/null 2>&1 &&
-    sudo pacman-key --recv-key 3056513887B78AEB &&
-    sudo pacman-key --lsign-key 3056513887B78AEB &&
-    sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' &&
-    sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'; then
+# Ubuntu doesn't have AUR, but we need to set up some essential tools and PPAs
+# for packages that aren't in the main repositories
 
-    # Add Chaotic-AUR repo to pacman config
-    if ! grep -q "chaotic-aur" /etc/pacman.conf; then
-      echo -e '\n[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist' | sudo tee -a /etc/pacman.conf >/dev/null
-    fi
+# Update package lists (only if not already done)
+if [[ -z "$OMARCHY_APT_UPDATED" ]]; then
+  sudo apt update
+  export OMARCHY_APT_UPDATED=1
+fi
 
-    # Install yay directly from Chaotic-AUR
-    sudo pacman -Sy --needed --noconfirm yay
+# Install essential build tools
+sudo apt install -y build-essential cmake pkg-config git curl wget software-properties-common
+
+# Add universe repository if not already enabled
+sudo add-apt-repository -y universe
+
+# Install tools for adding PPAs
+sudo apt install -y apt-transport-https ca-certificates gnupg lsb-release
+
+# Add fun to apt (similar to pacman's ILoveCandy)
+# Ubuntu doesn't have an equivalent, but we can enable progress bars
+if ! grep -q "Dpkg::Progress-Fancy" /etc/apt/apt.conf.d/99progressbar 2>/dev/null; then
+  echo 'Dpkg::Progress-Fancy "1";' | sudo tee /etc/apt/apt.conf.d/99progressbar >/dev/null
+fi
+
+# Install cargo for Rust-based tools (many AUR packages are Rust-based)
+if ! command -v cargo &>/dev/null; then
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+  source "$HOME/.cargo/env"
+  # Add cargo to current shell
+  export PATH="$HOME/.cargo/bin:$PATH"
+fi
+
+# Install pipx for Python applications
+if ! command -v pipx &>/dev/null; then
+  # On newer Ubuntu, pipx is available in apt
+  if apt-cache show pipx &>/dev/null; then
+    sudo apt install -y pipx
   else
-    echo "Failed to install Chaotic-AUR, so won't include it in pacman config!"
+    # For older Ubuntu, install via pip with break-system-packages flag
+    sudo apt install -y python3-pip python3-venv python3-full
+    python3 -m pip install --user --break-system-packages pipx
+    python3 -m pipx ensurepath
+  fi
+  # Add pipx to current shell
+  export PATH="$HOME/.local/bin:$PATH"
+fi
+
+# Install snap for some applications not available in apt
+if ! command -v snap &>/dev/null; then
+  sudo apt install -y snapd
+  # Only try to enable systemd services if not in Docker
+  if [[ ! -f /.dockerenv ]] && systemctl is-system-running &>/dev/null; then
+    sudo systemctl enable --now snapd.socket || true
   fi
 fi
 
-# Manually install yay from AUR if not already available
-if ! command -v yay &>/dev/null; then
-  # Install build tools
-  sudo pacman -Sy --needed --noconfirm base-devel
-  cd /tmp
-  rm -rf yay-bin
-  git clone https://aur.archlinux.org/yay-bin.git
-  cd yay-bin
-  makepkg -si --noconfirm
-  cd -
-  rm -rf yay-bin
-  cd ~
-fi
-
-# Add fun and color to the pacman installer
-if ! grep -q "ILoveCandy" /etc/pacman.conf; then
-  sudo sed -i '/^\[options\]/a Color\nILoveCandy' /etc/pacman.conf
-fi
+# Skip final update since we'll do it once at the end of all installations

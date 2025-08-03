@@ -14,7 +14,7 @@ ansi_art='                 ▄▄▄
 clear
 echo -e "\n$ansi_art\n"
 
-sudo pacman -Sy --noconfirm --needed git
+sudo apt update && sudo apt install -y git
 
 echo -e "\nCloning Omarchy..."
 rm -rf ~/.local/share/omarchy/

@@ -1,0 +1,72 @@
+Test started at: Sun Aug  3 10:49:10 AM MDT 2025
+Container: omarchy-test-ubuntu
+=================================================================================
+[0;32m[CONTAINER][0m Starting Omarchy installation test inside LXC container...
+[0;32m[CONTAINER][0m Container: omarchy-test-ubuntu
+[0;32m[CONTAINER][0m Ubuntu Version: Ubuntu 25.04
+[0;32m[CONTAINER][0m Kernel: 6.14.0-24-generic
+[0;32m[CONTAINER][0m systemd version: systemd 257 (257.4-1ubuntu3.1)
+
+[0;32m[CONTAINER][0m Testing systemd functionality...
+[0;32m[CONTAINER][0m ✓ systemd is running properly: running
+[0;32m[CONTAINER][0m Copying Omarchy source to test location...
+[0;32m[CONTAINER][0m Running boot.sh to start installation...
+[H[2J[3J
+                 ▄▄▄                                                   
+ ▄█████▄    ▄███████████▄    ▄███████   ▄███████   ▄███████   ▄█   █▄    ▄█   █▄ 
+███   ███  ███   ███   ███  ███   ███  ███   ███  ███   ███  ███   ███  ███   ███
+███   ███  ███   ███   ███  ███   ███  ███   ███  ███   █▀   ███   ███  ███   ███
+███   ███  ███   ███   ███ ▄███▄▄▄███ ▄███▄▄▄██▀  ███       ▄███▄▄▄███▄ ███▄▄▄███
+███   ███  ███   ███   ███ ▀███▀▀▀███ ▀███▀▀▀▀    ███      ▀▀███▀▀▀███  ▀▀▀▀▀▀███
+███   ███  ███   ███   ███  ███   ███ ██████████  ███   █▄   ███   ███  ▄██   ███
+███   ███  ███   ███   ███  ███   ███  ███   ███  ███   ███  ███   ███  ███   ███
+ ▀█████▀    ▀█   ███   █▀   ███   █▀   ███   ███  ███████▀   ███   █▀    ▀█████▀ 
+                                       ███   █▀                                  
+
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Ign:1 http://security.ubuntu.com/ubuntu plucky-security InRelease
+Ign:2 http://archive.ubuntu.com/ubuntu plucky InRelease
+Ign:3 http://archive.ubuntu.com/ubuntu plucky-updates InRelease
+Ign:4 http://archive.ubuntu.com/ubuntu plucky-backports InRelease
+Ign:1 http://security.ubuntu.com/ubuntu plucky-security InRelease
+Ign:2 http://archive.ubuntu.com/ubuntu plucky InRelease
+Ign:3 http://archive.ubuntu.com/ubuntu plucky-updates InRelease
+Ign:4 http://archive.ubuntu.com/ubuntu plucky-backports InRelease
+Ign:1 http://security.ubuntu.com/ubuntu plucky-security InRelease
+Ign:2 http://archive.ubuntu.com/ubuntu plucky InRelease
+Ign:3 http://archive.ubuntu.com/ubuntu plucky-updates InRelease
+Ign:4 http://archive.ubuntu.com/ubuntu plucky-backports InRelease
+Err:1 http://security.ubuntu.com/ubuntu plucky-security InRelease
+  Could not connect to security.ubuntu.com:80 (2620:2d:4002:1::101). - connect (101: Network is unreachable) Could not connect to security.ubuntu.com:80 (2620:2d:4000:1::101). - connect (101: Network is unreachable) Could not connect to security.ubuntu.com:80 (2620:2d:4002:1::103). - connect (101: Network is unreachable) Could not connect to security.ubuntu.com:80 (2620:2d:4000:1::103). - connect (101: Network is unreachable) Could not connect to security.ubuntu.com:80 (2620:2d:4000:1::102). - connect (101: Network is unreachable) Could not connect to security.ubuntu.com:80 (2620:2d:4002:1::102). - connect (101: Network is unreachable) Could not connect to security.ubuntu.com:80 (185.125.190.81), connection timed out Could not connect to security.ubuntu.com:80 (91.189.91.83), connection timed out Could not connect to security.ubuntu.com:80 (185.125.190.82), connection timed out Could not connect to security.ubuntu.com:80 (91.189.91.82), connection timed out Could not connect to security.ubuntu.com:80 (91.189.91.81), connection timed out Could not connect to security.ubuntu.com:80 (185.125.190.83), connection timed out
+  Unable to connect to security.ubuntu.com:http:
+Err:2 http://archive.ubuntu.com/ubuntu plucky InRelease
+  Could not connect to archive.ubuntu.com:80 (2620:2d:4000:1::102). - connect (101: Network is unreachable) Could not connect to archive.ubuntu.com:80 (2620:2d:4002:1::103). - connect (101: Network is unreachable) Could not connect to archive.ubuntu.com:80 (2620:2d:4000:1::103). - connect (101: Network is unreachable) Could not connect to archive.ubuntu.com:80 (2620:2d:4000:1::101). - connect (101: Network is unreachable) Could not connect to archive.ubuntu.com:80 (2620:2d:4002:1::102). - connect (101: Network is unreachable) Could not connect to archive.ubuntu.com:80 (2620:2d:4002:1::101). - connect (101: Network is unreachable) Could not connect to archive.ubuntu.com:80 (185.125.190.83), connection timed out Could not connect to archive.ubuntu.com:80 (91.189.91.81), connection timed out Could not connect to archive.ubuntu.com:80 (91.189.91.83), connection timed out Could not connect to archive.ubuntu.com:80 (185.125.190.82), connection timed out Could not connect to archive.ubuntu.com:80 (185.125.190.81), connection timed out Could not connect to archive.ubuntu.com:80 (91.189.91.82), connection timed out
+  Unable to connect to archive.ubuntu.com:http:
+Err:3 http://archive.ubuntu.com/ubuntu plucky-updates InRelease
+  Unable to connect to archive.ubuntu.com:http:
+Err:4 http://archive.ubuntu.com/ubuntu plucky-backports InRelease
+  Unable to connect to archive.ubuntu.com:http:
+Reading package lists...
+Building dependency tree...
+Reading state information...
+All packages are up to date.
+Warning: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/plucky/InRelease  Unable to connect to archive.ubuntu.com:http:
+Warning: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/plucky-updates/InRelease  Unable to connect to archive.ubuntu.com:http:
+Warning: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/plucky-backports/InRelease  Unable to connect to archive.ubuntu.com:http:
+Warning: Failed to fetch http://security.ubuntu.com/ubuntu/dists/plucky-security/InRelease  Unable to connect to security.ubuntu.com:http:
+Warning: Some index files failed to download. They have been ignored, or old ones used instead.
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+git is already the newest version (1:2.48.1-0ubuntu1.1).
+Solving dependencies...
+Summary:
+  Upgrading: 0, Installing: 0, Removing: 0, Not Upgrading: 0
+
+Cloning Omarchy...
+Cloning into '/home/testuser/.local/share/omarchy'...
