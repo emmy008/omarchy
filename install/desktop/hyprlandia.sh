@@ -11,11 +11,26 @@ sudo apt install -y --no-install-recommends \
   libavutil-dev libavcodec-dev libavformat-dev libxcb-ewmh2 libxcb-ewmh-dev \
   libxcb-present-dev libxcb-icccm4-dev libxcb-render-util0-dev libxcb-res0-dev \
   libxcb-xinput-dev xdg-desktop-portal-wlr libtomlplusplus3 \
-  hwdata libgbm-dev libnotify-bin zenity polkit-kde-agent-1 libpugixml-dev
+  hwdata libgbm-dev libnotify-bin zenity polkit-kde-agent-1 libpugixml-dev \
+  libre2-dev
 
-# Install Wayland protocols and Hyprland build dependencies
+# Install Wayland protocols and Hyprland ecosystem dependencies  
+# Note: libhyprutils-dev in Ubuntu 25.04 is too old (0.1.5), aquamarine needs >=0.8.0
 sudo apt install -y --no-install-recommends wayland-protocols libwayland-dev \
-  libdisplay-info-dev libhyprutils-dev hyprwayland-scanner
+  libdisplay-info-dev hyprwayland-scanner \
+  libhyprlang-dev libhyprcursor-dev
+
+# Build and install hyprutils (Ubuntu's version is too old for aquamarine)
+if ! pkg-config --exists "hyprutils >= 0.8.0" 2>/dev/null; then
+  cd /tmp
+  git clone https://github.com/hyprwm/hyprutils.git
+  cd hyprutils
+  cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+  cmake --build build
+  sudo cmake --install build
+  cd ..
+  rm -rf hyprutils
+fi
 
 # Build and install aquamarine (Hyprland's Wayland backend)
 if ! pkg-config --exists aquamarine; then
@@ -40,17 +55,6 @@ if ! command -v Hyprland &>/dev/null; then
   rm -rf Hyprland
 fi
 
-# Install hyprlang
-if ! pkg-config --exists hyprlang; then
-  cd /tmp
-  git clone https://github.com/hyprwm/hyprlang.git
-  cd hyprlang
-  cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
-  cmake --build build
-  sudo cmake --install build
-  cd ..
-  rm -rf hyprlang
-fi
 
 # Install hyprpicker
 if ! command -v hyprpicker &>/dev/null; then
