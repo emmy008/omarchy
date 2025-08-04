@@ -54,7 +54,7 @@ This fork adapts the original Arch-based Omarchy for Ubuntu systems (tested on U
 ### One-Line Install
 
 ```bash
-wget -qO- https://raw.githubusercontent.com/YOUR-USERNAME/omarchy-ubuntu/main/boot.sh | bash
+wget -qO- https://raw.githubusercontent.com/emmy008/omarchy/main/boot.sh | bash
 ```
 
 This will:
@@ -66,7 +66,7 @@ This will:
 ### Manual Installation
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/omarchy-ubuntu.git ~/.local/share/omarchy
+git clone https://github.com/emmy008/omarchy.git ~/.local/share/omarchy
 cd ~/.local/share/omarchy
 bash install.sh
 ```
@@ -176,13 +176,9 @@ This fork maintains compatibility with the upstream Omarchy project while adding
 ## Credits
 
 - Original [Omarchy](https://github.com/basecamp/omarchy) project by Basecamp
-- Ubuntu adaptation and testing infrastructure by this fork's contributors
+- Ubuntu adaptation by this fork's contributors
 
 ## License
 
 Omarchy is released under the [MIT License](https://opensource.org/licenses/MIT).
-
----
-
-*Note: Remember to update `YOUR-USERNAME` in the installation URLs to your actual GitHub username.*
 
