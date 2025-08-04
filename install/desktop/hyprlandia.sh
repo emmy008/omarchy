@@ -65,7 +65,7 @@ if ! command -v walker &>/dev/null; then
   cd /tmp
   git clone https://github.com/abenz1267/walker.git
   cd walker
-  go build -o walker ./cmd/walker
+  go build -o walker .
   sudo install -m755 walker /usr/local/bin/
   cd ..
   rm -rf walker
