@@ -28,10 +28,12 @@ sudo apt install -y --no-install-recommends \
   xdg-desktop-portal-hyprland \
   xdg-desktop-portal-gtk
 
-# Skip libhyprcursor packages if they cause issues - hyprland will pull in what it needs
+# The PPA provides newer versions of these libraries
+# Don't specify version numbers - let apt choose from PPA
 sudo apt install -y --no-install-recommends \
-  libhyprutils0 libhyprutils-dev \
-  libhyprlang2 libhyprlang-dev \
+  libhyprcursor-dev \
+  libhyprutils-dev \
+  libhyprlang-dev \
   hyprwayland-scanner || true
 
 sudo apt install -y --no-install-recommends \
