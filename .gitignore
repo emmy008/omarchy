@@ -8,5 +8,5 @@ run-ubuntu-test.sh
 test-install.sh
 test-results/
 
-# Claude configuration
+# Project configuration
 CLAUDE.md
