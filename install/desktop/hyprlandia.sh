@@ -26,12 +26,13 @@ if ! pkg-config --exists "wayland-protocols >= 1.43" 2>/dev/null; then
   echo "Building wayland-protocols from source (need >=1.43)..."
   cd /tmp
   rm -rf wayland-protocols
-  git clone https://gitlab.freedesktop.org/wayland/wayland-protocols.git
+  git clone --depth 1 --branch 1.45 https://gitlab.freedesktop.org/wayland/wayland-protocols.git
   cd wayland-protocols
-  git checkout 1.43  # Use specific version
-  meson setup build --prefix=/usr
+  meson setup build --prefix=/usr --buildtype=release
   ninja -C build
   sudo ninja -C build install
+  # Update pkg-config cache
+  sudo ldconfig
   cd ..
   rm -rf wayland-protocols
 fi
