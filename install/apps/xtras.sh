@@ -2,10 +2,11 @@
 
 if [ -z "$OMARCHY_BARE" ]; then
   # Install available packages from Ubuntu repos
+  # Note: pinta is not available in Ubuntu 25.04, use gimp instead
   sudo apt install -y \
     gnome-calculator gnome-keyring \
     libreoffice obs-studio kdenlive \
-    xournalpp pinta
+    xournalpp gimp
   
   # Signal Desktop - requires official repo
   if ! command -v signal-desktop &>/dev/null; then
