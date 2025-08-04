@@ -7,8 +7,12 @@ if ! grep -q "cppiber/hyprland" /etc/apt/sources.list.d/*.list 2>/dev/null; then
   sudo apt update
 fi
 
-# Fix any broken packages first
+# Fix any broken packages and prefer PPA versions
 echo "Fixing any broken packages..."
+# Remove conflicting Ubuntu version if PPA version is installed
+if dpkg -l | grep -q libhyprcursor1; then
+  sudo apt remove -y libhyprcursor0 2>/dev/null || true
+fi
 sudo apt --fix-broken install -y || true
 
 # Install Hyprland and all available components from PPA
