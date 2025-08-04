@@ -7,26 +7,39 @@ if ! grep -q "cppiber/hyprland" /etc/apt/sources.list.d/*.list 2>/dev/null; then
   sudo apt update
 fi
 
+# Fix any broken packages first
+echo "Fixing any broken packages..."
+sudo apt --fix-broken install -y || true
+
 # Install Hyprland and all available components from PPA
 echo "Installing Hyprland and components from PPA..."
+# Install in smaller groups to better handle dependencies
 sudo apt install -y --no-install-recommends \
   hyprland \
   hyprland-backgrounds \
   hyprland-protocols \
-  hyprpaper \
+  hyprpaper
+
+sudo apt install -y --no-install-recommends \
   hyprlock \
   hypridle \
-  hyprpicker \
+  hyprpicker
+
+sudo apt install -y --no-install-recommends \
   xdg-desktop-portal-hyprland \
-  libhyprcursor0 libhyprcursor-dev \
+  xdg-desktop-portal-gtk
+
+# Skip libhyprcursor packages if they cause issues - hyprland will pull in what it needs
+sudo apt install -y --no-install-recommends \
   libhyprutils0 libhyprutils-dev \
   libhyprlang2 libhyprlang-dev \
-  hyprwayland-scanner \
+  hyprwayland-scanner || true
+
+sudo apt install -y --no-install-recommends \
   waybar \
   mako-notifier \
   swaybg \
   swayosd \
-  xdg-desktop-portal-gtk \
   policykit-1-gnome \
   libqalculate-dev qalc
 
