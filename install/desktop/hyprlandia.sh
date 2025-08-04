@@ -66,6 +66,20 @@ if ! pkg-config --exists aquamarine; then
   rm -rf aquamarine
 fi
 
+# Build and install hyprgraphics (Hyprland graphics library)
+if ! pkg-config --exists "hyprgraphics >= 0.1.3" 2>/dev/null; then
+  echo "Building hyprgraphics..."
+  cd /tmp
+  git clone https://github.com/hyprwm/hyprgraphics.git
+  cd hyprgraphics
+  cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+  cmake --build build
+  sudo cmake --install build
+  sudo ldconfig
+  cd ..
+  rm -rf hyprgraphics
+fi
+
 # Build and install Hyprland
 if ! command -v Hyprland &>/dev/null; then
   cd /tmp
