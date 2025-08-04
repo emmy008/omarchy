@@ -46,7 +46,9 @@ sudo apt install -y --no-install-recommends \
 
 # Install build dependencies for remaining tools (Walker, hyprshot)
 sudo apt install -y --no-install-recommends \
-  build-essential cmake git golang-go
+  build-essential cmake git golang-go \
+  libglib2.0-dev libgtk-4-dev libgtk-layer-shell-dev \
+  libvips-dev pkg-config
 
 # Install hyprshot
 if ! command -v hyprshot &>/dev/null; then
