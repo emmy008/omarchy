@@ -1,11 +1,6 @@
 #!/bin/bash
 
-# Add PPA for latest Hyprland packages
-echo "Adding Hyprland PPA for latest packages..."
-if ! grep -q "cppiber/hyprland" /etc/apt/sources.list.d/*.list 2>/dev/null; then
-  sudo add-apt-repository -y ppa:cppiber/hyprland
-  sudo apt update
-fi
+# PPA is already added in preflight/packages.sh to ensure all scripts get the latest versions
 
 # Fix any broken packages and prefer PPA versions
 echo "Fixing any broken packages..."

@@ -18,6 +18,14 @@ sudo add-apt-repository -y universe
 # Install tools for adding PPAs
 sudo apt install -y apt-transport-https ca-certificates gnupg lsb-release
 
+# Add Hyprland PPA early to ensure we get the latest versions throughout installation
+# This prevents conflicts with older Ubuntu packages
+echo "Adding Hyprland PPA for latest packages..."
+if ! grep -q "cppiber/hyprland" /etc/apt/sources.list.d/*.list 2>/dev/null; then
+  sudo add-apt-repository -y ppa:cppiber/hyprland
+  sudo apt update
+fi
+
 # Enable progress bars in apt for better visual feedback
 if ! grep -q "Dpkg::Progress-Fancy" /etc/apt/apt.conf.d/99progressbar 2>/dev/null; then
   echo 'Dpkg::Progress-Fancy "1";' | sudo tee /etc/apt/apt.conf.d/99progressbar >/dev/null
