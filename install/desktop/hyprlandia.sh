@@ -10,7 +10,7 @@ sudo apt install -y --no-install-recommends \
   libgles2 libegl1-mesa-dev glslang-tools libinput-bin libinput-dev libxcb-composite0-dev \
   libavutil-dev libavcodec-dev libavformat-dev libxcb-ewmh2 libxcb-ewmh-dev \
   libxcb-present-dev libxcb-icccm4-dev libxcb-render-util0-dev libxcb-res0-dev \
-  libxcb-xinput-dev libxcb-errors-dev xdg-desktop-portal-wlr libtomlplusplus3 \
+  libxcb-xinput-dev libxcb-errors-dev xdg-desktop-portal-wlr libtomlplusplus3 libtomlplusplus-dev \
   hwdata libgbm-dev libnotify-bin zenity polkit-kde-agent-1 libpugixml-dev \
   libre2-dev
 
