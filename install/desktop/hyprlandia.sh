@@ -18,7 +18,44 @@ sudo apt install -y --no-install-recommends \
 # Note: libhyprutils-dev in Ubuntu 25.04 is too old (0.1.5), aquamarine needs >=0.8.0
 sudo apt install -y --no-install-recommends wayland-protocols libwayland-dev \
   libdisplay-info-dev hyprwayland-scanner \
-  libhyprlang-dev libhyprcursor-dev clang libmagic-dev
+  libhyprlang-dev libhyprcursor-dev clang libmagic-dev \
+  libpango1.0-dev libpangocairo-1.0-0 libxcursor-dev
+
+# Build newer wayland-protocols (Ubuntu has 1.41, need >=1.43)
+if ! pkg-config --exists "wayland-protocols >= 1.43" 2>/dev/null; then
+  echo "Building wayland-protocols from source (need >=1.43)..."
+  cd /tmp
+  rm -rf wayland-protocols
+  git clone https://gitlab.freedesktop.org/wayland/wayland-protocols.git
+  cd wayland-protocols
+  git checkout 1.43  # Use specific version
+  meson setup build --prefix=/usr
+  ninja -C build
+  sudo ninja -C build install
+  cd ..
+  rm -rf wayland-protocols
+fi
+
+# Build newer libinput (Ubuntu has 1.27.1, need >=1.28)
+if ! pkg-config --exists "libinput >= 1.28" 2>/dev/null; then
+  echo "Building libinput from source (need >=1.28)..."
+  # Install libinput build dependencies
+  sudo apt install -y --no-install-recommends \
+    libmtdev-dev libudev-dev libevdev-dev libwacom-dev \
+    libgtk-3-dev check
+  
+  cd /tmp
+  rm -rf libinput
+  git clone https://gitlab.freedesktop.org/libinput/libinput.git
+  cd libinput
+  git checkout 1.28.0  # Use specific version
+  meson setup build --prefix=/usr
+  ninja -C build
+  sudo ninja -C build install
+  sudo ldconfig
+  cd ..
+  rm -rf libinput
+fi
 
 # Build and install hyprutils (Ubuntu's version is too old for aquamarine)
 # First remove any old version from apt if installed
