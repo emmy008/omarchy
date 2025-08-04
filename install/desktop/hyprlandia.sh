@@ -53,7 +53,8 @@ if ! command -v hyprshot &>/dev/null; then
   cd /tmp
   git clone https://github.com/Gustash/Hyprshot.git
   cd Hyprshot
-  sudo make install
+  # Hyprshot is a bash script, just copy it to /usr/local/bin
+  sudo install -Dm755 hyprshot /usr/local/bin/hyprshot
   cd ..
   rm -rf Hyprshot
 fi
