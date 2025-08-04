@@ -119,12 +119,13 @@ if ! pkg-config --exists "hyprgraphics >= 0.1.3" 2>/dev/null; then
 fi
 
 # Build and install Hyprland
+# Use clang to avoid GCC 14 string_view issues
 if ! command -v Hyprland &>/dev/null; then
   cd /tmp
   rm -rf Hyprland  # Clean any previous attempts
   git clone --recursive https://github.com/hyprwm/Hyprland
   cd Hyprland
-  make all
+  CC=clang CXX=clang++ make all
   sudo make install
   cd ..
   rm -rf Hyprland
