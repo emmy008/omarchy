@@ -48,7 +48,8 @@ sudo apt install -y --no-install-recommends \
 sudo apt install -y --no-install-recommends \
   build-essential cmake git golang-go \
   libglib2.0-dev libgtk-4-dev libgtk-layer-shell-dev \
-  libvips-dev pkg-config
+  libvips-dev pkg-config gobject-introspection \
+  libgirepository1.0-dev
 
 # Install hyprshot
 if ! command -v hyprshot &>/dev/null; then
