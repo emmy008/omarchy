@@ -83,6 +83,7 @@ fi
 # Build and install Hyprland
 if ! command -v Hyprland &>/dev/null; then
   cd /tmp
+  rm -rf Hyprland  # Clean any previous attempts
   git clone --recursive https://github.com/hyprwm/Hyprland
   cd Hyprland
   make all
