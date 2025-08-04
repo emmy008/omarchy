@@ -18,28 +18,50 @@ sudo apt install -y --no-install-recommends \
 # Note: libhyprutils-dev in Ubuntu 25.04 is too old (0.1.5), aquamarine needs >=0.8.0
 sudo apt install -y --no-install-recommends wayland-protocols libwayland-dev \
   libdisplay-info-dev hyprwayland-scanner \
-  libhyprlang-dev libhyprcursor-dev
+  libhyprlang-dev libhyprcursor-dev clang
 
 # Build and install hyprutils (Ubuntu's version is too old for aquamarine)
+# First remove any old version from apt if installed
+if dpkg -l | grep -q libhyprutils-dev; then
+  echo "Removing old hyprutils from apt..."
+  sudo apt remove -y libhyprutils-dev libhyprutils0
+fi
+
 if ! pkg-config --exists "hyprutils >= 0.8.0" 2>/dev/null; then
+  echo "Building hyprutils from source (need >=0.8.0)..."
   cd /tmp
+  rm -rf hyprutils  # Clean any previous attempts
   git clone https://github.com/hyprwm/hyprutils.git
   cd hyprutils
   cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
   cmake --build build
   sudo cmake --install build
+  
+  # Update pkg-config cache
+  sudo ldconfig
+  
+  # Verify installation
+  if pkg-config --exists hyprutils; then
+    echo "hyprutils installed successfully (version: $(pkg-config --modversion hyprutils))"
+  else
+    echo "WARNING: hyprutils installation may have failed"
+  fi
+  
   cd ..
   rm -rf hyprutils
 fi
 
 # Build and install aquamarine (Hyprland's Wayland backend)
+# Use clang to avoid zero-size array errors with GCC 14+
 if ! pkg-config --exists aquamarine; then
+  echo "Building aquamarine with clang..."
   cd /tmp
   git clone https://github.com/hyprwm/aquamarine.git
   cd aquamarine
-  cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+  CC=clang CXX=clang++ cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
   cmake --build build
   sudo cmake --install build
+  sudo ldconfig
   cd ..
   rm -rf aquamarine
 fi
