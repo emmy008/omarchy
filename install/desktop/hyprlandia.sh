@@ -18,7 +18,7 @@ sudo apt install -y --no-install-recommends \
 # Note: libhyprutils-dev in Ubuntu 25.04 is too old (0.1.5), aquamarine needs >=0.8.0
 sudo apt install -y --no-install-recommends wayland-protocols libwayland-dev \
   libdisplay-info-dev hyprwayland-scanner \
-  libhyprlang-dev libhyprcursor-dev clang
+  libhyprlang-dev libhyprcursor-dev clang libmagic-dev
 
 # Build and install hyprutils (Ubuntu's version is too old for aquamarine)
 # First remove any old version from apt if installed
