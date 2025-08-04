@@ -127,8 +127,8 @@ if ! command -v Hyprland &>/dev/null; then
   cd Hyprland
   
   # Fix the string_view concatenation issue in hyprctl/main.cpp
-  # Need to convert both instanceSignature and filename to std::string
-  sed -i 's/getRuntimeDir() + "\/" + instanceSignature + "\/" + filename/getRuntimeDir() + "\/" + std::string(instanceSignature) + "\/" + std::string(filename)/' hyprctl/main.cpp
+  # Replace the problematic line with proper string construction
+  sed -i '271s/.*/    std::string socketPath = getRuntimeDir() + "\/" + std::string(instanceSignature) + "\/" + std::string(filename);/' hyprctl/main.cpp
   
   CC=clang CXX=clang++ make all
   sudo make install
